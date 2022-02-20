@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.maojx0630.upright.mahjong.mapper.GamePointsMapper">
+  <resultMap id="BaseResultMap" type="com.github.maojx0630.upright.mahjong.model.GamePoints">
+    <!--@mbg.generated-->
+    <id column="game_id" jdbcType="INTEGER" property="gameId" />
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="points" jdbcType="INTEGER" property="points" />
+    <result column="order" jdbcType="INTEGER" property="order" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    game_id, user_id, points, "order"
+  </sql>
+</mapper>
