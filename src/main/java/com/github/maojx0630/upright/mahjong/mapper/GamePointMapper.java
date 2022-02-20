@@ -1,9 +1,9 @@
 package com.github.maojx0630.upright.mahjong.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.github.maojx0630.upright.mahjong.model.GamePoints;
+import com.github.maojx0630.upright.mahjong.model.GamePoint;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GamePointsMapper extends BaseMapper<GamePoints> {
+public interface GamePointMapper extends BaseMapper<GamePoint> {
 }
