@@ -6,5 +6,4 @@ import com.github.maojx0630.upright.mahjong.model.GamePoint;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GamePointService extends ServiceImpl<GamePointMapper, GamePoint> {
-}
+public class GamePointService extends ServiceImpl<GamePointMapper, GamePoint> {}

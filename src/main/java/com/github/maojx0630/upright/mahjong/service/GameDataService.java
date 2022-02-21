@@ -6,6 +6,4 @@ import com.github.maojx0630.upright.mahjong.model.GameData;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GameDataService extends ServiceImpl<GameDataMapper
-        , GameData> {
-}
+public class GameDataService extends ServiceImpl<GameDataMapper, GameData> {}

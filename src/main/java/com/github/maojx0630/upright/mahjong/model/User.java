@@ -8,19 +8,24 @@ import lombok.Data;
 
 import java.util.Date;
 
+/** 选手信息 */
 @Data
 @TableName("user")
 public class User {
 
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    private Integer id;
+  /** 选手id */
+  @TableId(value = "id", type = IdType.ASSIGN_ID)
+  private Long id;
 
-    @TableField("name")
-    private String name;
+  /** 选手名称 */
+  @TableField("name")
+  private String name;
 
-    @TableField("simple_name")
-    private String simpleName;
+  /** 选手简称 */
+  @TableField("simple_name")
+  private String simpleName;
 
-    @TableField("create_time")
-    private Date createTime;
+  /** 选手创建时间 */
+  @TableField("create_time")
+  private Date createTime;
 }

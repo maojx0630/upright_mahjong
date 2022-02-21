@@ -6,5 +6,4 @@ import com.github.maojx0630.upright.mahjong.model.User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService extends ServiceImpl<UserMapper, User> {
-}
+public class UserService extends ServiceImpl<UserMapper, User> {}

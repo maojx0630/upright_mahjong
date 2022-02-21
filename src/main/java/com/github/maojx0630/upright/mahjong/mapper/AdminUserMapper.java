@@ -5,5 +5,4 @@ import com.github.maojx0630.upright.mahjong.model.AdminUser;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AdminUserMapper extends BaseMapper<AdminUser> {
-}
+public interface AdminUserMapper extends BaseMapper<AdminUser> {}

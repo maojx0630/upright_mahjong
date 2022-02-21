@@ -8,13 +8,28 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 对局信息
+ **/
 @Data
 @TableName("game_data")
 public class GameData {
 
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    private Long id;
+  /**
+   * id
+   **/
+  @TableId(value = "id", type = IdType.ASSIGN_ID)
+  private Long id;
 
-    @TableField("create_date")
-    private Date createDate;
+  /**
+   * 当天的第几局
+   **/
+  @TableField("how_many")
+  private Integer howMany;
+
+   /**
+    * 对局时间
+    **/
+  @TableField("game_date")
+  private Date gameDate;
 }

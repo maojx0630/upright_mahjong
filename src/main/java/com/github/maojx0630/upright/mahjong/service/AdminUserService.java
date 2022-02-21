@@ -6,5 +6,4 @@ import com.github.maojx0630.upright.mahjong.model.AdminUser;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminUserService extends ServiceImpl<AdminUserMapper, AdminUser> {
-}
+public class AdminUserService extends ServiceImpl<AdminUserMapper, AdminUser> {}

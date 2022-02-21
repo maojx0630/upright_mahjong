@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.maojx0630.upright.mahjong.mapper.DanInfoMapper">
+  <resultMap id="BaseResultMap" type="com.github.maojx0630.upright.mahjong.model.DanInfo">
+    <!--@mbg.generated-->
+    <!--@Table dan_info-->
+    <result column="dan_value" property="danValue" />
+    <result column="dan_name" property="danName" />
+    <result column="title" property="title" />
+    <result column="basis_pt" property="basisPt" />
+    <result column="first" property="first" />
+    <result column="second" property="second" />
+    <result column="third" property="third" />
+    <result column="fourth" property="fourth" />
+    <result column="demotion" property="demotion" />
+    <result column="upgrade_pt" property="upgradePt" />
+    <result column="average_rate" property="averageRate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    dan_value, dan_name, title, basis_pt, "first", "second", third, fourth, demotion, 
+    upgrade_pt, average_rate
+  </sql>
+</mapper>

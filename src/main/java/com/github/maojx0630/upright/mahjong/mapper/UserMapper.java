@@ -5,5 +5,4 @@ import com.github.maojx0630.upright.mahjong.model.User;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserMapper extends BaseMapper<User> {
-}
+public interface UserMapper extends BaseMapper<User> {}

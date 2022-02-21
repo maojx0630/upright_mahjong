@@ -8,16 +8,28 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 管理员
+ **/
 @Data
 @TableName("admin_user")
 public class AdminUser {
 
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    private Long id;
+  /**
+   * id
+   **/
+  @TableId(value = "id", type = IdType.ASSIGN_ID)
+  private Long id;
 
-    @TableField("name")
-    private String name;
+  /**
+   * 名称
+   **/
+  @TableField("name")
+  private String name;
 
-    @TableField("create_date")
-    private Date createDate;
+  /**
+   * 创建时间
+   **/
+  @TableField("create_date")
+  private Date createDate;
 }
