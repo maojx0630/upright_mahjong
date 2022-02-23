@@ -10,5 +10,4 @@ import org.springframework.stereotype.Service;
  * @since 2022/2/21 16:41
  */
 @Service
-public class DanInfoService extends ServiceImpl<DanInfoMapper, DanInfo> {
-}
+public class DanInfoService extends ServiceImpl<DanInfoMapper, DanInfo> {}

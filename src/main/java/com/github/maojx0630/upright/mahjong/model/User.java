@@ -35,7 +35,7 @@ public class User {
 
   /** r值 */
   @TableField("rate")
-  private String rate;
+  private Double rate;
 
   /** 对局次数 */
   @TableField("game_number")

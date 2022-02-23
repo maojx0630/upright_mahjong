@@ -9,7 +9,9 @@ import lombok.Data;
 @Data
 public class ScoreParam {
 
-	private Integer score;
+  private Integer order;
 
-	private Long userId;
+  private Integer score;
+
+  private Long userId;
 }

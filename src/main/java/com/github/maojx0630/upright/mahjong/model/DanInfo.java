@@ -8,6 +8,7 @@ import lombok.Data;
 
 /**
  * 段位基础信息
+ *
  * @author 毛家兴
  * @since 2022/2/21 16:32
  */
