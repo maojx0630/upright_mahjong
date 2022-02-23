@@ -1,11 +1,10 @@
 package com.github.maojx0630.upright.mahjong.calculate;
 
 import cn.hutool.core.util.NumberUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.github.maojx0630.upright.mahjong.dto.UserRes;
 import com.github.maojx0630.upright.mahjong.model.DanInfo;
 import com.github.maojx0630.upright.mahjong.model.GameData;
 import com.github.maojx0630.upright.mahjong.model.GamePoint;
-import com.github.maojx0630.upright.mahjong.model.User;
 import com.github.maojx0630.upright.mahjong.param.GameDataParam;
 import com.github.maojx0630.upright.mahjong.param.ScoreParam;
 import com.github.maojx0630.upright.mahjong.service.DanInfoService;
@@ -30,36 +29,35 @@ public class GameCalculationService {
   private static final Map<Integer, Integer> SCORE_BASIC =
       MapBuild.<Integer, Integer>createKv().put(1, 10).put(2, -20).put(3, -40).put(4, -50).build();
 
-  private static final Map<Integer, DanInfo> DAN_MAP = new HashMap<>();
+  private static final Map<String, DanInfo> DAN_TITLE_MAP = new HashMap<>();
+  private static final Map<Integer, DanInfo> DAN_VALUE_MAP = new HashMap<>();
 
   private final UserService userService;
 
   public GameCalculationService(UserService userService, DanInfoService danInfoService) {
     this.userService = userService;
     for (DanInfo danInfo : danInfoService.list()) {
-      DAN_MAP.put(danInfo.getDanValue(), danInfo);
+      DAN_TITLE_MAP.put(danInfo.getTitle(), danInfo);
+      DAN_VALUE_MAP.put(danInfo.getDanValue(), danInfo);
     }
   }
 
   @Transactional
   public synchronized void calculation(GameDataParam gameDataParam) {
-    List<User> users =
-        userService.list(
-            Wrappers.<User>lambdaQuery()
-                .in(
-                    User::getId,
-                    gameDataParam.getScores().stream()
-                        .map(ScoreParam::getUserId)
-                        .collect(Collectors.toList())));
+    List<UserRes> users =
+        userService.getUserResList(
+            gameDataParam.getScores().stream()
+                .map(ScoreParam::getUserId)
+                .collect(Collectors.toList()));
     if (users.size() != 4) {
       throw new RuntimeException("123");
     }
     double countRate = 0;
-    for (User user : users) {
+    for (UserRes user : users) {
       countRate = NumberUtil.add(countRate, user.getRate().doubleValue());
     }
     double averageRate = NumberUtil.div(countRate, 4);
-    Map<Long, User> userMap = getUserMap(users);
+    Map<Long, UserRes> userMap = getUserMap(users);
     // 对局
     GameData gameData = new GameData();
     gameData.setId(IdUtils.next());
@@ -83,24 +81,35 @@ public class GameCalculationService {
     }
     // 计算分数
   }
-
+  // 四段以上r达到1550的，对战般场时是按照上级桌结算的
   // 计算对战后的pt
-  private List<Integer> calculatePt(List<GamePoint> gamePoints, Map<Long, User> userMap) {
+  private List<Integer> calculatePt(List<GamePoint> gamePoints, Map<Long, UserRes> userMap) {
+    if (userMap.values().stream().map(UserRes::getDanValue).collect(Collectors.toSet()).size()
+        == 1) {
+      // 同一个桌
+    } else if (false) { // 三段特例（常驻）：3名三段教练与般桌教练对战按照上级桌结算pt
 
+    } else if (false) { // 3名特上桌教练与1名三段教练对战，特上桌教练可以按照特上桌结算pt
+
+    } else if (false) { // 3名凤凰桌教练与1名六段教练对战，凤凰桌教练可以按照凤凰桌结算pt
+
+    } else { // 混桌 除最低级别正常加分 其他按照低一级别加分
+
+    }
     return null;
   }
 
   // 战后数据
-  private void afterGame(GamePoint gamePoint, Map<Long, User> userMap) {
-    User user = userMap.get(gamePoint.getUserId());
+  private void afterGame(GamePoint gamePoint, Map<Long, UserRes> userMap) {
+    UserRes user = userMap.get(gamePoint.getUserId());
     gamePoint.setAfterRate(NumberUtil.add(user.getRate(), gamePoint.getChangeRate()));
     gamePoint.setAfterScore(NumberUtil.add(user.getTotalScore(), gamePoint.getChangeScore()));
   }
 
   // 计算R值
   private void calculateChangeRate(
-      GamePoint gamePoint, Map<Long, User> userMap, double averageRate) {
-    User user = userMap.get(gamePoint.getUserId());
+      GamePoint gamePoint, Map<Long, UserRes> userMap, double averageRate) {
+    UserRes user = userMap.get(gamePoint.getUserId());
     int gameNumber = user.getGameNumber() + 1;
     Integer integer = RATE_BASIC.get(gamePoint.getSeqOrder());
     double auxiliary = 0.2D; // 对局数辅正
@@ -122,9 +131,9 @@ public class GameCalculationService {
             SCORE_BASIC.get(gamePoint.getSeqOrder()).doubleValue()));
   }
 
-  private Map<Long, User> getUserMap(List<User> list) {
-    Map<Long, User> map = new HashMap<>();
-    for (User user : list) {
+  private Map<Long, UserRes> getUserMap(List<UserRes> list) {
+    Map<Long, UserRes> map = new HashMap<>();
+    for (UserRes user : list) {
       map.put(user.getId(), user);
     }
     return map;

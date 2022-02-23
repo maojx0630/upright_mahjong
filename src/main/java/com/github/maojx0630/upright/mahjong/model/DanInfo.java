@@ -28,6 +28,10 @@ public class DanInfo {
   @TableField("title")
   private String title;
 
+  /** 称号ID */
+  @TableField("title_id")
+  private Integer titleId;
+
   /** 升级后基础点数 */
   @TableField("basis_pt")
   private Integer basisPt;
