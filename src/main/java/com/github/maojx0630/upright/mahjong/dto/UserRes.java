@@ -57,7 +57,7 @@ public class UserRes {
   private String title;
 
   /** 称号ID */
-  private Integer titleId;
+  private Integer titleValue;
 
   /** 升级后基础点数 */
   private Integer basisPt;
@@ -79,4 +79,7 @@ public class UserRes {
 
   /** 升级需要pt */
   private Integer upgradePt;
+
+  /** 变化pt值 */
+  private Integer changePt;
 }

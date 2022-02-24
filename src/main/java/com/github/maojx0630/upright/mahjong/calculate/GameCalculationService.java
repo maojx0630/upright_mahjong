@@ -1,13 +1,16 @@
 package com.github.maojx0630.upright.mahjong.calculate;
 
 import cn.hutool.core.util.NumberUtil;
+import com.github.maojx0630.upright.mahjong.common.exception.StateEnum;
 import com.github.maojx0630.upright.mahjong.dto.UserRes;
 import com.github.maojx0630.upright.mahjong.model.DanInfo;
+import com.github.maojx0630.upright.mahjong.model.DanTitle;
 import com.github.maojx0630.upright.mahjong.model.GameData;
 import com.github.maojx0630.upright.mahjong.model.GamePoint;
 import com.github.maojx0630.upright.mahjong.param.GameDataParam;
 import com.github.maojx0630.upright.mahjong.param.ScoreParam;
 import com.github.maojx0630.upright.mahjong.service.DanInfoService;
+import com.github.maojx0630.upright.mahjong.service.DanTitleService;
 import com.github.maojx0630.upright.mahjong.service.UserService;
 import com.github.maojx0630.upright.mahjong.utils.IdUtils;
 import com.github.maojx0630.upright.mahjong.utils.MapBuild;
@@ -29,16 +32,19 @@ public class GameCalculationService {
   private static final Map<Integer, Integer> SCORE_BASIC =
       MapBuild.<Integer, Integer>createKv().put(1, 10).put(2, -20).put(3, -40).put(4, -50).build();
 
-  private static final Map<String, DanInfo> DAN_TITLE_MAP = new HashMap<>();
+  private static final Map<Integer, DanTitle> DAN_TITLE_MAP = new HashMap<>();
   private static final Map<Integer, DanInfo> DAN_VALUE_MAP = new HashMap<>();
 
   private final UserService userService;
 
-  public GameCalculationService(UserService userService, DanInfoService danInfoService) {
+  public GameCalculationService(
+      UserService userService, DanInfoService danInfoService, DanTitleService danTitleService) {
     this.userService = userService;
     for (DanInfo danInfo : danInfoService.list()) {
-      DAN_TITLE_MAP.put(danInfo.getTitle(), danInfo);
       DAN_VALUE_MAP.put(danInfo.getDanValue(), danInfo);
+    }
+    for (DanTitle danTitle : danTitleService.list()) {
+      DAN_TITLE_MAP.put(danTitle.getTitleValue(), danTitle);
     }
   }
 
@@ -50,7 +56,7 @@ public class GameCalculationService {
                 .map(ScoreParam::getUserId)
                 .collect(Collectors.toList()));
     if (users.size() != 4) {
-      throw new RuntimeException("123");
+      throw StateEnum.user_number_error.create();
     }
     double countRate = 0;
     for (UserRes user : users) {
@@ -85,18 +91,42 @@ public class GameCalculationService {
   // 计算对战后的pt
   private List<Integer> calculatePt(List<GamePoint> gamePoints, Map<Long, UserRes> userMap) {
     if (userMap.values().stream().map(UserRes::getDanValue).collect(Collectors.toSet()).size()
-        == 1) {
-      // 同一个桌
-    } else if (false) { // 三段特例（常驻）：3名三段教练与般桌教练对战按照上级桌结算pt
-
-    } else if (false) { // 3名特上桌教练与1名三段教练对战，特上桌教练可以按照特上桌结算pt
-
-    } else if (false) { // 3名凤凰桌教练与1名六段教练对战，凤凰桌教练可以按照凤凰桌结算pt
-
-    } else { // 混桌 除最低级别正常加分 其他按照低一级别加分
-
+        == 1) { // 同一个桌 直接结算pt不用任何操作
+      for (GamePoint gamePoint : gamePoints) {
+        UserRes userRes = userMap.get(gamePoint.getUserId());
+        Integer danValue = userRes.getDanValue();
+        Integer pt =
+            getSeqPt(
+                gamePoint.getSeqOrder(),
+                DAN_VALUE_MAP.get(danValue),
+                DAN_TITLE_MAP.get(userRes.getTitleValue()));
+        userRes.setUpgradePt(pt);
+      }
+    } else {
+      if (specialCase()) { // 混桌 除最低级别正常加分 其他按照低一级别加分 如果
+      }
     }
     return null;
+  }
+  // 三段特例（常驻）：3名三段教练与般桌教练对战按照上级桌结算pt
+  // 3名特上桌教练与1名三段教练对战，特上桌教练可以按照特上桌结算pt
+  // 3名凤凰桌教练与1名六段教练对战，凤凰桌教练可以按照凤凰桌结算pt
+  private boolean specialCase() {
+    return false;
+  }
+
+  private Integer getSeqPt(Integer seq, DanInfo danInfo, DanTitle danTitle) {
+    switch (seq) {
+      case 1:
+        return danTitle.getTitleFirst();
+      case 2:
+        return danTitle.getTitleSecond();
+      case 3:
+        return danTitle.getTitleThird();
+      case 4:
+        return danInfo.getFourth();
+    }
+    throw StateEnum.ranking_not_correct.create().append("[").append(seq + "").append("]");
   }
 
   // 战后数据

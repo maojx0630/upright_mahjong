@@ -24,29 +24,13 @@ public class DanInfo {
   @TableField("dan_name")
   private String danName;
 
-  /** 称号 */
-  @TableField("title")
-  private String title;
-
   /** 称号ID */
-  @TableField("title_id")
-  private Integer titleId;
+  @TableField("title_value")
+  private Integer titleValue;
 
   /** 升级后基础点数 */
   @TableField("basis_pt")
   private Integer basisPt;
-
-  /** 吃1点数 */
-  @TableField("first")
-  private Integer first;
-
-  /** 吃2点数 */
-  @TableField("second")
-  private Integer second;
-
-  /** 吃3点数 */
-  @TableField("third")
-  private Integer third;
 
   /** 吃4点数 */
   @TableField("fourth")

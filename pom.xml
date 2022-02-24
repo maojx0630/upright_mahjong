@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.maojx0630</groupId>
@@ -23,7 +24,7 @@
         <!-- swagger 版本 -->
         <knife4j.version>2.0.8</knife4j.version>
         <!-- 工具类相关 版本 -->
-        <fastjson.version>1.2.76</fastjson.version>
+        <fastjson.version>1.2.79</fastjson.version>
         <hutool.version>5.7.21</hutool.version>
         <okhttp.version>4.9.1</okhttp.version>
         <easypoi.version>4.2.0</easypoi.version>
@@ -58,6 +59,18 @@
             <artifactId>hutool-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
@@ -68,6 +81,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -327,6 +341,7 @@
 
 
     <build>
+        <finalName>upright_mahjong</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
